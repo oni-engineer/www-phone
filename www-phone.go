@@ -173,9 +173,9 @@ func main() {
 	}
 
 	mux.Handle("/list", http.HandlerFunc(listHandler))
-	mux.Handle("/insert", http.HandlerFunc(insertHandler))
-	mux.Handle("/search", http.HandlerFunc(searchHandler))
-	mux.Handle("/delete", http.HandlerFunc(deleteHandler))
+	mux.Handle("/insert/", http.HandlerFunc(insertHandler))
+	mux.Handle("/search/", http.HandlerFunc(searchHandler))
+	mux.Handle("/delete/", http.HandlerFunc(deleteHandler))
 	mux.Handle("/status", http.HandlerFunc(statusHandler))
 	mux.Handle("/", http.HandlerFunc(defaultHandler))
 

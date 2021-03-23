@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 )
 
 const PORT = ":1234"
@@ -49,8 +50,10 @@ func insertHandler(w http.ResponseWriter, r *http.Request) {
 
 func searchHandler(w http.ResponseWriter, r *http.Request) {
 	// Get Search value from URL
+	paramStr := strings.Split(r.URL.Path, "/")
+	fmt.Println("Path:", paramStr)
 
-	log.Println("Serving:", r.URL.Path, "from", r.Host)
+	fmt.Println("Serving:", r.URL.Path, "from", r.Host)
 	w.WriteHeader(http.StatusOK)
 	Body := "Search Handler!\n"
 	fmt.Fprintf(w, "%s", Body)
