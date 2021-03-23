@@ -145,7 +145,7 @@ func matchTel(s string) bool {
 func list() string {
 	var all string
 	for _, k := range data {
-		all = all + k.Name + k.Surname + k.Tel + "\n"
+		all = all + k.Name + " " + k.Surname + " " + k.Tel + "\n"
 	}
 	return all
 }
@@ -174,6 +174,7 @@ func main() {
 
 	mux.Handle("/list", http.HandlerFunc(listHandler))
 	mux.Handle("/insert/", http.HandlerFunc(insertHandler))
+	mux.Handle("/search", http.HandlerFunc(searchHandler))
 	mux.Handle("/search/", http.HandlerFunc(searchHandler))
 	mux.Handle("/delete/", http.HandlerFunc(deleteHandler))
 	mux.Handle("/status", http.HandlerFunc(statusHandler))

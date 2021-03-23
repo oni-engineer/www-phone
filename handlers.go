@@ -17,11 +17,29 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteHandler(w http.ResponseWriter, r *http.Request) {
-	// Get ID
+	// Get telephone
+	paramStr := strings.Split(r.URL.Path, "/")
+	fmt.Println("Path:", paramStr)
+	if len(paramStr) < 3 {
+		w.WriteHeader(http.StatusNotFound)
+		fmt.Fprintln(w, "Not found: "+r.URL.Path)
+		return
+	}
 
 	log.Println("Serving:", r.URL.Path, "from", r.Host)
+
+	telephone := paramStr[2]
+	err := deleteEntry(telephone)
+	if err != nil {
+		fmt.Println(err)
+		Body := err.Error() + "\n"
+		w.WriteHeader(http.StatusNotFound)
+		fmt.Fprintf(w, "%s", Body)
+		return
+	}
+
+	Body := telephone + " deleted!\n"
 	w.WriteHeader(http.StatusOK)
-	Body := "Delete Handler!\n"
 	fmt.Fprintf(w, "%s", Body)
 }
 
@@ -35,7 +53,7 @@ func listHandler(w http.ResponseWriter, r *http.Request) {
 func statusHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("Serving:", r.URL.Path, "from", r.Host)
 	w.WriteHeader(http.StatusOK)
-	Body := "Status Handler!\n"
+	Body := fmt.Sprintf("Total entries: %d\n", len(data))
 	fmt.Fprintf(w, "%s", Body)
 }
 
@@ -53,8 +71,22 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 	paramStr := strings.Split(r.URL.Path, "/")
 	fmt.Println("Path:", paramStr)
 
+	if len(paramStr) < 3 {
+		w.WriteHeader(http.StatusNotFound)
+		fmt.Fprintln(w, "Not found: "+r.URL.Path)
+		return
+	}
+
+	var Body string
+	telephone := paramStr[2]
+	t := search(telephone)
+	if t == nil {
+		Body = "Could not be found: " + telephone + "\n"
+	} else {
+		Body = t.Name + " " + t.Surname + " " + t.Tel + "\n"
+	}
+
 	fmt.Println("Serving:", r.URL.Path, "from", r.Host)
 	w.WriteHeader(http.StatusOK)
-	Body := "Search Handler!\n"
 	fmt.Fprintf(w, "%s", Body)
 }
