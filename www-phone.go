@@ -142,6 +142,14 @@ func matchTel(s string) bool {
 	return re.Match(t)
 }
 
+func list() string {
+	var all string
+	for _, k := range data {
+		all = all + k.Name + k.Surname + k.Tel + "\n"
+	}
+	return all
+}
+
 func main() {
 	err := readCSVFile(CSVFILE)
 	if err != nil {
