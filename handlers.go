@@ -59,11 +59,40 @@ func statusHandler(w http.ResponseWriter, r *http.Request) {
 
 func insertHandler(w http.ResponseWriter, r *http.Request) {
 	// Split URL
+	paramStr := strings.Split(r.URL.Path, "/")
+	fmt.Println("Path:", paramStr)
+
+	if len(paramStr) < 5 {
+		w.WriteHeader(http.StatusNotFound)
+		fmt.Fprintln(w, "Not enough arguments: "+r.URL.Path)
+		return
+	}
+
+	name := paramStr[2]
+	surname := paramStr[3]
+	tel := paramStr[4]
+
+	t := strings.ReplaceAll(tel, "-", "")
+	if !matchTel(t) {
+		fmt.Println("Not a valid telephone number:", tel)
+		return
+	}
+
+	temp := &Entry{Name: name, Surname: surname, Tel: t}
+	err := insert(temp)
+
+	if err != nil {
+		w.WriteHeader(http.StatusFound)
+		Body := "Failed to add record\n"
+		fmt.Fprintf(w, "%s", Body)
+	} else {
+		log.Println("Serving:", r.URL.Path, "from", r.Host)
+		Body := "New record added successully\n"
+		w.WriteHeader(http.StatusOK)
+		fmt.Fprintf(w, "%s", Body)
+	}
 
 	log.Println("Serving:", r.URL.Path, "from", r.Host)
-	w.WriteHeader(http.StatusOK)
-	Body := "Insert Handler!\n"
-	fmt.Fprintf(w, "%s", Body)
 }
 
 func searchHandler(w http.ResponseWriter, r *http.Request) {
