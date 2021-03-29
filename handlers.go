@@ -110,12 +110,13 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 	telephone := paramStr[2]
 	t := search(telephone)
 	if t == nil {
+		w.WriteHeader(http.StatusNotFound)
 		Body = "Could not be found: " + telephone + "\n"
 	} else {
+		w.WriteHeader(http.StatusOK)
 		Body = t.Name + " " + t.Surname + " " + t.Tel + "\n"
 	}
 
 	fmt.Println("Serving:", r.URL.Path, "from", r.Host)
-	w.WriteHeader(http.StatusOK)
 	fmt.Fprintf(w, "%s", Body)
 }
