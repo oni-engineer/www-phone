@@ -100,6 +100,8 @@ func insert(pS *Entry) error {
 	if ok {
 		return fmt.Errorf("%s already exists", pS.Tel)
 	}
+
+	*&pS.LastAccess = strconv.FormatInt(time.Now().Unix(), 10)
 	data = append(data, *pS)
 	// Update the index
 	_ = createIndex()
