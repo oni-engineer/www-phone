@@ -87,7 +87,7 @@ func insertHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "%s", Body)
 	} else {
 		log.Println("Serving:", r.URL.Path, "from", r.Host)
-		Body := "New record added successully\n"
+		Body := "New record added successfully\n"
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprintf(w, "%s", Body)
 	}
