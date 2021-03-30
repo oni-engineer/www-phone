@@ -82,7 +82,7 @@ func insertHandler(w http.ResponseWriter, r *http.Request) {
 	err := insert(temp)
 
 	if err != nil {
-		w.WriteHeader(http.StatusFound)
+		w.WriteHeader(http.StatusNotModified)
 		Body := "Failed to add record\n"
 		fmt.Fprintf(w, "%s", Body)
 	} else {
