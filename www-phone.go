@@ -161,7 +161,7 @@ func main() {
 
 	err = createIndex()
 	if err != nil {
-		fmt.Println("Cannot create index.")
+		fmt.Println("Cannot create index")
 		return
 	}
 
@@ -183,10 +183,11 @@ func main() {
 	mux.Handle("/status", http.HandlerFunc(statusHandler))
 	mux.Handle("/", http.HandlerFunc(defaultHandler))
 
-	fmt.Println("Ready to serve at", PORT)
+	fmt.Println("port:", PORT)
 	err = s.ListenAndServe()
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 }
+
